@@ -18,6 +18,12 @@
 	<property name="dist" value="./dist" />
 	<property name="lib" value="./lib" />
 
+	<path id="classpath">
+		<fileset dir="${dist}/${lib}" includes="**/*.jar" />
+	</path>
+	
+	<property name="classpath" value="${toString:classpath}" />
+	
 	<echo message="${basedir}" />
 
 	<property file="version.properties" />
@@ -63,12 +69,6 @@
 		<mkdir dir="${dist}" />
 		<mkdir dir="${dist}/lib" />
 	</target>
-	
-	<path id="classpath">
-		<fileset dir="${dist}/${lib}" includes="**/*.jar" />
-	</path>
-	
-	<property name="classpath" value="${toString:classpath}" />
 
 	<!-- Compiles the code -->
 	<target name="compile" depends="copy_res">
