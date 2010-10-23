@@ -5,6 +5,7 @@ import it.sauronsoftware.junique.JUnique;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.ParseException;
@@ -17,7 +18,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.jfacility.lang.MySystem;
+import org.jfacility.java.lang.MySystem;
 
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -153,27 +154,21 @@ public class Application {
         }
     }
 
-    public void restart() {
+    public void restart() throws IOException {
         ArrayList<String> commands = new ArrayList<String>();
         commands.add(MySystem.getJavaHome() + File.separator + "bin"
                 + File.separator + "java");
         commands.add("-jar");
         commands.add(ROOT_DIRECTORY + File.separator + JAR_FILENAME);
         ProcessBuilder pb = new ProcessBuilder(commands);
-        // ProcessBuilder pb = new ProcessBuilder("/usr/bin/java", "-jar",
-        // ROOT_DIRECTORY + File.separator + JAR_FILENAME);
         pb.redirectErrorStream(true);
-        try {
-            JUnique.releaseLock(name);
-            Process p = pb.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        JUnique.releaseLock(name);
+        pb.start();
         shutdown();
     }
 
     public void shutdown() {
-        java.lang.System.exit(0);
+        System.exit(0);
     }
 
     public String getName() {
@@ -224,7 +219,10 @@ public class Application {
         return l;
     }
 
-    public void setApplicationLookAndFeel(String lookAndFeelName) {
+    public void setApplicationLookAndFeel(String lookAndFeelName) throws ClassNotFoundException, 
+            InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, 
+            ParseException {
+        
         LookAndFeel laf = null;
 
         // String[] li = {"Licensee=AppWork UG",
@@ -235,54 +233,42 @@ public class Application {
         // UIManager.put("Synthetica.license.key",
         // "C1410294-61B64AAC-4B7D3039-834A82A1-37E5D695");
 
-        try {
-            if (lookAndFeelName.equalsIgnoreCase("System")) {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                laf = UIManager.getLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Cross Platform")) {
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-                laf = UIManager.getLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Nimbus")) {
-                laf = new NimbusLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica Standard")) {
-                laf = new SyntheticaStandardLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackEye")) {
-                laf = new SyntheticaBlackEyeLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackMoon")) {
-                laf = new SyntheticaBlackMoonLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackStar")) {
-                laf = new SyntheticaBlackStarLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueIce")) {
-                laf = new SyntheticaBlueIceLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueMoon")) {
-                laf = new SyntheticaBlueMoonLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueSteel")) {
-                laf = new SyntheticaBlueSteelLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica GreenDream")) {
-                laf = new SyntheticaGreenDreamLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica MaouveMetallic")) {
-                laf = new SyntheticaMauveMetallicLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica OrangeMetallic")) {
-                laf = new SyntheticaOrangeMetallicLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica SilverMoon")) {
-                laf = new SyntheticaSilverMoonLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica Simple2D")) {
-                laf = new SyntheticaSimple2DLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica SkyMetallic")) {
-                laf = new SyntheticaSkyMetallicLookAndFeel();
-            } else if (lookAndFeelName.equalsIgnoreCase("Synthetica WhiteVision")) {
-                laf = new SyntheticaWhiteVisionLookAndFeel();
-            }
-        } catch (ClassNotFoundException e) {
-            // error.launch(e, getClass());
-        } catch (UnsupportedLookAndFeelException e) {
-            // error.launch(e, getClass());
-        } catch (IllegalAccessException e) {
-            // error.launch(e, getClass());
-        } catch (InstantiationException e) {
-            // error.launch(e, getClass());
-        } catch (ParseException e) {
-            // error.launch(e, getClass());
+        if (lookAndFeelName.equalsIgnoreCase("System")) {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            laf = UIManager.getLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Cross Platform")) {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            laf = UIManager.getLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Nimbus")) {
+            laf = new NimbusLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica Standard")) {
+            laf = new SyntheticaStandardLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackEye")) {
+            laf = new SyntheticaBlackEyeLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackMoon")) {
+            laf = new SyntheticaBlackMoonLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackStar")) {
+            laf = new SyntheticaBlackStarLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueIce")) {
+            laf = new SyntheticaBlueIceLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueMoon")) {
+            laf = new SyntheticaBlueMoonLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueSteel")) {
+            laf = new SyntheticaBlueSteelLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica GreenDream")) {
+            laf = new SyntheticaGreenDreamLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica MaouveMetallic")) {
+            laf = new SyntheticaMauveMetallicLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica OrangeMetallic")) {
+            laf = new SyntheticaOrangeMetallicLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica SilverMoon")) {
+            laf = new SyntheticaSilverMoonLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica Simple2D")) {
+            laf = new SyntheticaSimple2DLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica SkyMetallic")) {
+            laf = new SyntheticaSkyMetallicLookAndFeel();
+        } else if (lookAndFeelName.equalsIgnoreCase("Synthetica WhiteVision")) {
+            laf = new SyntheticaWhiteVisionLookAndFeel();
         }
 
         this.applicationLookAndFeel = laf;
