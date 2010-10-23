@@ -333,7 +333,8 @@ public class Application {
 		} catch (ParseException e) {
 
 		} catch (UnsupportedLookAndFeelException e) {
-		} finally {
+			
+		} catch (Exception e) {
 			throw new NotAvailableLookAndFeelException();
 		}
 	}
