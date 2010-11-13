@@ -256,13 +256,6 @@ public class Application {
 		LookAndFeel laf = null;
 		String lafClassName = null;
 
-		// String[] li = {"Licensee=AppWork UG",
-		// "LicenseRegistrationNumber=289416475", "Product=Synthetica",
-		// "LicenseType=Small Business License", "ExpireDate=--.--.----",
-		// "MaxVersion=2.999.999"};
-		// UIManager.put("Synthetica.license.info", li);
-		// UIManager.put("Synthetica.license.key",
-		// "C1410294-61B64AAC-4B7D3039-834A82A1-37E5D695");
 		try {
 
 			if (lookAndFeelName.equalsIgnoreCase("System")) {
