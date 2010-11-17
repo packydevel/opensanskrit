@@ -2,7 +2,6 @@ package org.opensanskrit.application;
 
 import java.util.TreeMap;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -33,6 +32,7 @@ public class MyLookAndFeel {
         lafs.put(SYNTHETICA_BLACKMOON, "de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel");
         lafs.put(SYNTHETICA_BLACKSTAR, "de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel");
         lafs.put(SYNTHETICA_BLUEICE, "de.javasoft.plaf.synthetica.SyntheticaBlueIceLookAndFeel");
+        lafs.put(SYNTHETICA_BLUEMOON, "de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel");
         lafs.put(SYNTHETICA_BLUESTEEL, "de.javasoft.plaf.synthetica.SyntheticaBlueSteelLookAndFeel");
         lafs.put(SYNTHETICA_GREENDREAM, "de.javasoft.plaf.synthetica.SyntheticaGreenDreamLookAndFeel");
         lafs.put(SYNTHETICA_SILVERMOON, "de.javasoft.plaf.synthetica.SyntheticaSilverMoonLookAndFeel");
@@ -44,7 +44,6 @@ public class MyLookAndFeel {
 
     public void addSyntheticaNotFree(){
         lafs.put(SYNTHETICA_BLACKEYE, "de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel");
-        lafs.put(SYNTHETICA_BLUEMOON, "de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel");
         lafs.put(SYNTHETICA_MAOUVEMETALLIC, "de.javasoft.plaf.synthetica.SyntheticaMaouveMetallicLookAndFeel");
         lafs.put(SYNTHETICA_ORANGEMETALLIC, "de.javasoft.plaf.synthetica.SyntheticaOrangeMetallicLookAndFeel");
         lafs.put(SYNTHETICA_SIMPLE2D, "de.javasoft.plaf.synthetica.SyntheticaSimple2DLookAndFeel");

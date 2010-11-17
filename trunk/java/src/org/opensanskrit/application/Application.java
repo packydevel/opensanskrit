@@ -16,26 +16,28 @@ import org.jfacility.java.lang.MySystem;
 
 public class Application {
 
-    public static Application APPLICATION;
-    private static Class<?> CLASS;
-    public static String BUILD_NUMBER;
-    public static String ROOT_DIRECTORY;
-    public static String HOME_DIRECTORY;
-    private String name;
-    private String author;
-    private Image ICON;
-    //private LookAndFeel applicationLookAndFeel;
+    public static Application APPLICATION;    
+    public static String BUILD_NUMBER, ROOT_DIRECTORY, HOME_DIRECTORY;
     public static boolean IS_JAR;
+
+    private static Class<?> CLASS;
+    private static boolean debug;
+
     public String JAR_FILENAME;
+
+    private String name, author;
+    private Image ICON;    
     private Boolean singleInstance = false;
     private MyLookAndFeel myLaf;
+    //private LookAndFeel applicationLookAndFeel;
 
     private Application() {
         Throwable t = new Throwable();
         StackTraceElement[] trace = t.getStackTrace();
         try {
             Class<?> caller = Class.forName(trace[trace.length - 1].getClassName());
-            System.out.println(caller.getCanonicalName());
+            if (debug)
+                System.out.println(caller.getCanonicalName());
             CLASS = caller;
         } catch (Exception e) {
         }
@@ -46,8 +48,9 @@ public class Application {
         myLaf = new MyLookAndFeel();
     }
 
-    public static Application getInstance() {
+    public static Application getInstance(boolean _debug) {
         if (APPLICATION == null) {
+            debug = _debug;
             return new Application();
         }
         return APPLICATION;
@@ -73,10 +76,10 @@ public class Application {
          * caller is null in case the ressource is not found or not enough
          * rights, in that case we assume its not jared
          */
-        System.out.println("The classURL is:" + classURL);
-        if (classURL == null) {
+        if (debug)
+            System.out.println("The classURL is:" + classURL);
+        if (classURL == null)
             return false;
-        }
 
         return classURL.toString().matches("jar\\:.*\\.jar\\!.*");
     }
@@ -101,8 +104,8 @@ public class Application {
 
             Matcher m = p.matcher(classFileNameDecodedURL);
             m.find();
-            System.out.println(classFileNameDecodedURL.substring(m.start() + 1,
-                    m.end()));
+            if (debug)
+                System.out.println(classFileNameDecodedURL.substring(m.start() + 1, m.end()));
             return (classFileNameDecodedURL.substring(m.start() + 1, m.end()));
 
         }
@@ -132,7 +135,8 @@ public class Application {
                     + System.getProperty("file.separator") + HOME_DIRECTORY
                     + System.getProperty("file.separator");
         }
-        System.out.println(rootDirectory);
+        if (debug)
+            System.out.println(rootDirectory);
         return rootDirectory;
     }
 
