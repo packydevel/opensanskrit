@@ -7,7 +7,7 @@ import javax.swing.UIManager;
  *
  * @author luca
  */
-public class MyLookAndFeel {
+public class LookAndFeel {
     private final String SYNTHETICA_STANDARD = "Synthetica Standard";
     private final String SYNTHETICA_BLACKMOON = "Synthetica BlackMoon";
     private final String SYNTHETICA_BLACKSTAR = "Synthetica BlackStar";
