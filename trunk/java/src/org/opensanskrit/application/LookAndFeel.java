@@ -22,6 +22,7 @@ public class LookAndFeel {
     private final String SYNTHETICA_SIMPLE2D = "Synthetica Simple2D";
     private final String SYNTHETICA_SKYMETALLIC = "Synthetica SkyMetallic";
     private final String SYNTHETICA_WHITEVISION = "Synthetica WhiteVision";
+    private final String SYSTEM = "System";
     private final String CROSS_PLATFORM = "Cross Platform";
     private final String NIMBUS = "Nimbus";
 
@@ -52,7 +53,7 @@ public class LookAndFeel {
     }
 
     public void addOtherLAF() {
-        //availableLafs.add("System");
+        lafs.put(SYSTEM, UIManager.getSystemLookAndFeelClassName());
         lafs.put(CROSS_PLATFORM, UIManager.getCrossPlatformLookAndFeelClassName());
         lafs.put(NIMBUS, "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
     }
