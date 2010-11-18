@@ -103,10 +103,13 @@ public class Application {
 
             Matcher m = p.matcher(classFileNameDecodedURL);
             m.find();
-            if (DEBUG_FLAG)
-                System.out.println(classFileNameDecodedURL.substring(m.start() + 1, m.end()));
+            
+            if (DEBUG_FLAG) {
+            	System.out.println("classFileNameDecodedURL is: " + classFileNameDecodedURL);
+                System.out.println(classFileNameDecodedURL.substring(m.start() + 1, m.end()));   
+            }
+            
             return (classFileNameDecodedURL.substring(m.start() + 1, m.end()));
-
         }
         return "";
     }
