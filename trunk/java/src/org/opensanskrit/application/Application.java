@@ -28,7 +28,7 @@ public class Application {
     private String name, author;
     private Image ICON;    
     private Boolean singleInstance = false;
-    private MyLookAndFeel myLaf;
+    private LookAndFeel myLaf;
     //private LookAndFeel applicationLookAndFeel;
 
     private Application() {
@@ -45,7 +45,7 @@ public class Application {
         ROOT_DIRECTORY = retrieveRootDirectory();
         IS_JAR = isJar();
         JAR_FILENAME = retrieveJarFileName();
-        myLaf = new MyLookAndFeel();
+        myLaf = new LookAndFeel();
     }
 
     public static Application getInstance(boolean _debug) {
@@ -290,7 +290,7 @@ public class Application {
         this.singleInstance = flag;
     }
 
-    public MyLookAndFeel getIstanceLAF(){
+    public LookAndFeel getIstanceLAF(){
         return myLaf;
     }
 }
