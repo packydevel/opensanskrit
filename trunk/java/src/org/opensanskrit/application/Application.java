@@ -118,7 +118,7 @@ public class Application {
         String loc;
         String rootDirectory;
 
-        if (isJar()) { // this is the jar file
+        if (IS_JAR) { // this is the jar file
             try {
                 loc = URLDecoder.decode(
                         CLASS.getProtectionDomain().getCodeSource().getLocation().getFile(),
