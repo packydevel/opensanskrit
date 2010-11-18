@@ -21,22 +21,21 @@ public class Application {
     public static boolean IS_JAR;
 
     private static Class<?> CLASS;
-    private static boolean debug;
+    private static boolean DEBUG_FLAG;
 
     public String JAR_FILENAME;
 
     private String name, author;
     private Image ICON;    
     private Boolean singleInstance = false;
-    private LookAndFeel myLaf;
-    //private LookAndFeel applicationLookAndFeel;
+    private LookAndFeel applicationLookAndFeel;
 
     private Application() {
         Throwable t = new Throwable();
         StackTraceElement[] trace = t.getStackTrace();
         try {
             Class<?> caller = Class.forName(trace[trace.length - 1].getClassName());
-            if (debug)
+            if (DEBUG_FLAG)
                 System.out.println(caller.getCanonicalName());
             CLASS = caller;
         } catch (Exception e) {
@@ -45,12 +44,12 @@ public class Application {
         ROOT_DIRECTORY = retrieveRootDirectory();
         IS_JAR = isJar();
         JAR_FILENAME = retrieveJarFileName();
-        myLaf = new LookAndFeel();
+        applicationLookAndFeel = new LookAndFeel();
     }
 
-    public static Application getInstance(boolean _debug) {
+    public static Application getInstance(boolean debugFlag) {
         if (APPLICATION == null) {
-            debug = _debug;
+            DEBUG_FLAG = debugFlag;
             return new Application();
         }
         return APPLICATION;
@@ -76,7 +75,7 @@ public class Application {
          * caller is null in case the ressource is not found or not enough
          * rights, in that case we assume its not jared
          */
-        if (debug)
+        if (DEBUG_FLAG)
             System.out.println("The classURL is:" + classURL);
         if (classURL == null)
             return false;
@@ -85,7 +84,7 @@ public class Application {
     }
 
     private String retrieveJarFileName() {
-        if (isJar()) {
+        if (IS_JAR) {
             String classFileName = CLASS.getName().replaceAll("\\.", "/")
                     + ".class";
             URL classFileNameURL = Thread.currentThread().getContextClassLoader().getResource(classFileName);
@@ -104,7 +103,7 @@ public class Application {
 
             Matcher m = p.matcher(classFileNameDecodedURL);
             m.find();
-            if (debug)
+            if (DEBUG_FLAG)
                 System.out.println(classFileNameDecodedURL.substring(m.start() + 1, m.end()));
             return (classFileNameDecodedURL.substring(m.start() + 1, m.end()));
 
@@ -135,7 +134,7 @@ public class Application {
                     + System.getProperty("file.separator") + HOME_DIRECTORY
                     + System.getProperty("file.separator");
         }
-        if (debug)
+        if (DEBUG_FLAG)
             System.out.println(rootDirectory);
         return rootDirectory;
     }
@@ -152,10 +151,10 @@ public class Application {
 
     public void restart() throws UnableRestartApplicationException {
         ArrayList<String> commands = new ArrayList<String>();
-        commands.add(MySystem.getJavaHome() + File.separator + "bin"
-                + File.separator + "java");
+        commands.add(MySystem.getJavaHome() + System.getProperty("file.separator") + "bin"
+                + System.getProperty("file.separator") + "java");
         commands.add("-jar");
-        commands.add(ROOT_DIRECTORY + File.separator + JAR_FILENAME);
+        commands.add(ROOT_DIRECTORY + System.getProperty("file.separator") + JAR_FILENAME);
         ProcessBuilder pb = new ProcessBuilder(commands);
         pb.redirectErrorStream(true);
         JUnique.releaseLock(name);
@@ -194,103 +193,12 @@ public class Application {
     public void setIcon(Image icon) {
         this.ICON = icon;
     }
-/*
-    public List<String> getAvailableLookAndFeel() {
-        List<String> l = new ArrayList<String>();
 
-        l.add("System");
-        l.add("Cross Platform");
-        l.add("Nimbus");
-        l.add("Synthetica Standard");
-        l.add("Synthetica BlackEye");
-        l.add("Synthetica BlackMoon");
-        l.add("Synthetica BlackStar");
-        l.add("Synthetica BlueIce");
-        l.add("Synthetica BlueMoon");
-        l.add("Synthetica BlueSteel");
-        l.add("Synthetica GreenDream");
-        l.add("Synthetica MaouveMetallic");
-        l.add("Synthetica OrangeMetallic");
-        l.add("Synthetica SilverMoon");
-        l.add("Synthetica Simple2D");
-        l.add("Synthetica SkyMetallic");
-        l.add("Synthetica WhiteVision");
-
-        return l;
-    }
-
-    public void setLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception e) {
-        }
-    }    
-
-    public void setLookAndFeel(String lookAndFeelName) throws NotAvailableLookAndFeelException {
-
-        LookAndFeel laf = null;
-        String lafClassName = null;
-
-        // String[] li = {"Licensee=AppWork UG",
-        // "LicenseRegistrationNumber=289416475", "Product=Synthetica",
-        // "LicenseType=Small Business License", "ExpireDate=--.--.----",
-        // "MaxVersion=2.999.999"};
-        // UIManager.put("Synthetica.license.info", li);
-        // UIManager.put("Synthetica.license.key",
-        // "C1410294-61B64AAC-4B7D3039-834A82A1-37E5D695");
-        try {
-            if (lafClassName != null) {
-                UIManager.setLookAndFeel(lafClassName);
-                laf = UIManager.getLookAndFeel();
-            } else {
-                if (lookAndFeelName.equalsIgnoreCase("Nimbus"))
-                    laf = new NimbusLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica Standard"))
-                    laf = new SyntheticaStandardLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackEye"))
-                    laf = new SyntheticaBlackEyeLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackMoon"))
-                    laf = new SyntheticaBlackMoonLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlackStar"))
-                    laf = new SyntheticaBlackStarLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueIce"))
-                    laf = new SyntheticaBlueIceLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueMoon"))
-                    laf = new SyntheticaBlueMoonLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica BlueSteel"))
-                    laf = new SyntheticaBlueSteelLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica GreenDream"))
-                    laf = new SyntheticaGreenDreamLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica MaouveMetallic"))
-                    laf = new SyntheticaMauveMetallicLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica OrangeMetallic"))
-                    laf = new SyntheticaOrangeMetallicLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica SilverMoon"))
-                    laf = new SyntheticaSilverMoonLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica Simple2D"))
-                    laf = new SyntheticaSimple2DLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica SkyMetallic"))
-                    laf = new SyntheticaSkyMetallicLookAndFeel();
-                else if (lookAndFeelName.equalsIgnoreCase("Synthetica WhiteVision"))
-                    laf = new SyntheticaWhiteVisionLookAndFeel();
-                UIManager.setLookAndFeel(laf);
-            }
-            this.applicationLookAndFeel = laf;
-        } catch (ClassNotFoundException e) {
-        } catch (IllegalAccessException e) {
-        } catch (InstantiationException e) {
-        } catch (ParseException e) {
-        } catch (UnsupportedLookAndFeelException e) {
-        } catch (Exception e) {
-            throw new NotAvailableLookAndFeelException();
-        }
-    }
-*/
     public void enableSingleInstance(boolean flag) {
         this.singleInstance = flag;
     }
 
     public LookAndFeel getIstanceLAF(){
-        return myLaf;
+        return applicationLookAndFeel;
     }
 }
