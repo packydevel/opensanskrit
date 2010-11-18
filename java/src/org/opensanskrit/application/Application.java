@@ -98,9 +98,14 @@ public class Application {
                 classFileNameDecodedURL = "";
             }
 
+            /* Da verificare
             Pattern p = Pattern.compile(System.getProperty("file.separator")
                     + "[^" + System.getProperty("file.separator") + "]*\\.jar");
-
+			*/
+            
+            Pattern p = Pattern.compile(System.getProperty("file.separator")
+                    + "[^/]*\\.jar");
+			
             Matcher m = p.matcher(classFileNameDecodedURL);
             m.find();
             
