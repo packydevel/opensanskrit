@@ -40,7 +40,6 @@ public class Application {
             CLASS = caller;
         } catch (Exception e) {
         }
-
         ROOT_DIRECTORY = retrieveRootDirectory();
         IS_JAR = isJar();
         JAR_FILENAME = retrieveJarFileName();
@@ -127,15 +126,12 @@ public class Application {
                 System.err.println("failed urldecoding Location: " + loc);
             }
             File appRoot = new File(loc);
-            if (appRoot.isFile()) {
+            if (appRoot.isFile())
                 appRoot = appRoot.getParentFile();
-            }
             rootDirectory = appRoot.getAbsolutePath();
-        } else {
-            rootDirectory = System.getProperty("user.home")
-                    + System.getProperty("file.separator") + HOME_DIRECTORY
-                    + System.getProperty("file.separator");
-        }
+        } else
+            rootDirectory = MySystem.getUserHome() + File.separator + HOME_DIRECTORY
+                    + File.separator;
         if (DEBUG_FLAG)
             System.out.println(rootDirectory);
         return rootDirectory;
@@ -153,10 +149,9 @@ public class Application {
 
     public void restart() throws UnableRestartApplicationException {
         ArrayList<String> commands = new ArrayList<String>();
-        commands.add(MySystem.getJavaHome() + System.getProperty("file.separator") + "bin"
-                + System.getProperty("file.separator") + "java");
+        commands.add(MySystem.getJavaCommand());
         commands.add("-jar");
-        commands.add(ROOT_DIRECTORY + System.getProperty("file.separator") + JAR_FILENAME);
+        commands.add(ROOT_DIRECTORY + File.separator + JAR_FILENAME);
         ProcessBuilder pb = new ProcessBuilder(commands);
         pb.redirectErrorStream(true);
         JUnique.releaseLock(name);
