@@ -142,7 +142,10 @@ public class Application {
     public void start() throws AlreadyStartedApplicationException {
         try {
             if (singleInstance) {
-                JUnique.acquireLock(name);
+                String temp = name;
+                if (IS_JAR)
+                    temp += "JAR";
+                JUnique.acquireLock(temp);
             }
         } catch (AlreadyLockedException e) {
             throw new AlreadyStartedApplicationException();
@@ -178,8 +181,8 @@ public class Application {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String _name) {
+        name = _name;
     }
 
     public String getAuthor() {
