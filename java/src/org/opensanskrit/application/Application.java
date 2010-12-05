@@ -152,6 +152,11 @@ public class Application {
         commands.add(MySystem.getJavaCommand());
         commands.add("-jar");
         commands.add(ROOT_DIRECTORY + File.separator + JAR_FILENAME);
+
+        if (DEBUG_FLAG)
+            for (int i=0; i<commands.size(); i++)
+                System.out.println(commands.get(i));
+
         ProcessBuilder pb = new ProcessBuilder(commands);
         pb.redirectErrorStream(true);
         JUnique.releaseLock(name);
