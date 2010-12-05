@@ -40,8 +40,8 @@ public class Application {
             CLASS = caller;
         } catch (Exception e) {
         }
-        ROOT_DIRECTORY = retrieveRootDirectory();
         IS_JAR = isJar();
+        ROOT_DIRECTORY = retrieveRootDirectory();        
         JAR_FILENAME = retrieveJarFileName();
         applicationLookAndFeel = new LookAndFeel();
     }
@@ -118,13 +118,15 @@ public class Application {
 
         if (IS_JAR) { // this is the jar file
             try {
-                loc = URLDecoder.decode(
-                        CLASS.getProtectionDomain().getCodeSource().getLocation().getFile(),
-                        "UTF-8");
+                String temp = CLASS.getProtectionDomain().getCodeSource().getLocation().getFile();
+                loc = URLDecoder.decode(temp, "UTF-8");
+                if (DEBUG_FLAG)
+                    System.out.println("loc:" + loc);
             } catch (Exception e) {
                 loc = CLASS.getProtectionDomain().getCodeSource().getLocation().getFile();
                 System.err.println("failed urldecoding Location: " + loc);
             }
+
             File appRoot = new File(loc);
             if (appRoot.isFile())
                 appRoot = appRoot.getParentFile();
