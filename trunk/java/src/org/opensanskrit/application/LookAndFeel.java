@@ -1,5 +1,6 @@
 package org.opensanskrit.application;
 
+import org.opensanskrit.exception.NotAvailableLookAndFeelException;
 import java.util.TreeMap;
 import javax.swing.UIManager;
 
