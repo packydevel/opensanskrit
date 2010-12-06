@@ -1,5 +1,7 @@
 package org.opensanskrit.application;
 
+import org.opensanskrit.exception.AlreadyStartedApplicationException;
+import org.opensanskrit.exception.UnableRestartApplicationException;
 import it.sauronsoftware.junique.AlreadyLockedException;
 import it.sauronsoftware.junique.JUnique;
 
@@ -41,6 +43,8 @@ public class Application {
         } catch (Exception e) {
         }
         IS_JAR = isJar();
+        if (DEBUG_FLAG)
+            System.out.println("JAR:" + IS_JAR);
         ROOT_DIRECTORY = retrieveRootDirectory();        
         JAR_FILENAME = retrieveJarFileName();
         applicationLookAndFeel = new LookAndFeel();
