@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jfacility.java.lang.JVM;
 import org.jfacility.java.lang.MySystem;
 
 public class Application {
@@ -158,7 +159,7 @@ public class Application {
 
     public void restart() throws UnableRestartApplicationException {
         ArrayList<String> commands = new ArrayList<String>();
-        commands.add(MySystem.getJavaCommand());
+        commands.add(JVM.getCommand());
         commands.add("-jar");
         commands.add(ROOT_DIRECTORY + File.separator + JAR_FILENAME);
 
