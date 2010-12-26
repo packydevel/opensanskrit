@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jfacility.java.lang.JVM;
-import org.jfacility.java.lang.MySystem;
+import org.jfacility.java.lang.SystemProperty;
 
 public class Application {
 
@@ -137,7 +137,7 @@ public class Application {
                 appRoot = appRoot.getParentFile();
             rootDirectory = appRoot.getAbsolutePath();
         } else
-            rootDirectory = MySystem.getUserHome() + File.separator + HOME_DIRECTORY
+            rootDirectory = SystemProperty.getUserHome() + File.separator + HOME_DIRECTORY
                     + File.separator;
         if (DEBUG_FLAG)
             System.out.println(rootDirectory);
