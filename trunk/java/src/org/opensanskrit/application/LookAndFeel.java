@@ -1,9 +1,10 @@
 package org.opensanskrit.application;
 
-import org.opensanskrit.exception.NotAvailableLookAndFeelException;
 import java.util.TreeMap;
+
 import javax.swing.UIManager;
 
+import org.opensanskrit.exception.NotAvailableLookAndFeelException;
 /**
  *
  * @author luca
@@ -16,19 +17,19 @@ public class LookAndFeel {
     private final String JAVA_NIMBUS = "Nimbus";
     private final String JAVA_WINDOWS = "Windows";
     private final String JAVA_MAC = "Mac";
-	private final String JTATTOO_ACRYL = "JTattoo Acryl";
-	private final String JTATTOO_AERO = "JTattoo Aero";
-	private final String JTATTOO_ALUMINIUM = "JTattoo Aluminium";
-	private final String JTATTOO_BERNSTEIN = "JTattoo Bernstein";
-	private final String JTATTOO_FAST = "JTatoo Fast";
-	private final String JTATTOO_GRAPHITE = "JTattoo Graphite";
-	private final String JTATTOO_HIFI = "JTattoo HiFi";
-	private final String JTATTOO_LUNA = "JTattoo Luna";
-	private final String JTATTOO_MCWIN = "JTattoo_McWin";
-	private final String JTATTOO_MINT = "JTattoo Mint";
-	private final String JTATTOO_NOIRE = "JTattoo Noire";
-	private final String JTATTOO_SMART = "JTattoo Smart";
-	private final String JTATTOO_CUSTOM = "JTattoo Custom";
+    private final String JTATTOO_ACRYL = "JTattoo Acryl";
+    private final String JTATTOO_AERO = "JTattoo Aero";
+    private final String JTATTOO_ALUMINIUM = "JTattoo Aluminium";
+    private final String JTATTOO_BERNSTEIN = "JTattoo Bernstein";
+    private final String JTATTOO_FAST = "JTatoo Fast";
+    private final String JTATTOO_GRAPHITE = "JTattoo Graphite";
+    private final String JTATTOO_HIFI = "JTattoo HiFi";
+    private final String JTATTOO_LUNA = "JTattoo Luna";
+    private final String JTATTOO_MCWIN = "JTattoo_McWin";
+    private final String JTATTOO_MINT = "JTattoo Mint";
+    private final String JTATTOO_NOIRE = "JTattoo Noire";
+    private final String JTATTOO_SMART = "JTattoo Smart";
+    private final String JTATTOO_CUSTOM = "JTattoo Custom";
     private final String SYNTHETICA_STANDARD = "Synthetica Standard";
     private final String SYNTHETICA_BLACKMOON = "Synthetica BlackMoon";
     private final String SYNTHETICA_BLACKSTAR = "Synthetica BlackStar";
@@ -104,10 +105,6 @@ public class LookAndFeel {
         try{
             UIManager.setLookAndFeel(LAFClassMap.get(key));
             actualLAF = key;
-        //} catch (ClassNotFoundException e) {
-        //} catch (IllegalAccessException e) {
-        //} catch (InstantiationException e) {
-        //} catch (UnsupportedLookAndFeelException e) {
         } catch (Exception e) {
             throw new NotAvailableLookAndFeelException();
         }
@@ -116,10 +113,6 @@ public class LookAndFeel {
         try{
             UIManager.setLookAndFeel(LAFClassMap.get(JAVA_CROSS_PLATFORM));
             actualLAF = JAVA_CROSS_PLATFORM;
-        //} catch (ClassNotFoundException e) {
-        //} catch (IllegalAccessException e) {
-        //} catch (InstantiationException e) {
-        //} catch (UnsupportedLookAndFeelException e) {
         } catch (Exception e) {}
     }
 }
