@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.jfacility.java.awt.AWT;
 
 import org.jfacility.java.lang.SystemProperty;
 import org.jfacility.javax.swing.Swing;
@@ -38,7 +39,6 @@ public class SystemInfoDialog extends JDialog{
         initTable();
         initButtons();
         pack();
-        setVisible(true);
     }
     
     private void initTable(){
