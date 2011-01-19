@@ -90,12 +90,20 @@ public class SystemInfoDialog extends JDialog{
         jbCopy.addMouseListener(new MouseAdapter() {
         @Override
             public void mouseClicked(MouseEvent evt) {
-                //TODO fare la copia dei valori dtm nella clipboard
+                copyIntoClipboard();
                 SystemInfoDialog.this.dispose();
             }
         });
         pane.add(jbClose);
         pane.add(jbCopy);
         getContentPane().add(pane, BorderLayout.SOUTH);
+    }
+    
+    private void copyIntoClipboard(){
+        String text = "";
+        for (int i=0; i<dtm.getRowCount(); i++)
+            text += dtm.getValueAt(i, 0).toString() + ": " + 
+                    dtm.getValueAt(i, 1).toString() + "\n";
+        AWT.setClipboard(text);
     }
 }
