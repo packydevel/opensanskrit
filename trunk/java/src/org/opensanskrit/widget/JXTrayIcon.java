@@ -1,4 +1,5 @@
 package org.opensanskrit.widget;
+
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -34,37 +36,37 @@ public class JXTrayIcon extends TrayIcon {
     }
 
     private static PopupMenuListener popupListener = new PopupMenuListener() {
-
-        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-        }
-
+        @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
             SwingUtilities.invokeLater(new Runnable() {
-
+                @Override
                 public void run() {
                     dialog.setVisible(false);
                 }
             });
         }
 
+        @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
             SwingUtilities.invokeLater(new Runnable() {
-
+                @Override
                 public void run() {
                     dialog.setVisible(false);
                 }
             });
         }
+        @Override
+        public void popupMenuWillBecomeVisible(PopupMenuEvent e) {}
     };
 
     public JXTrayIcon(Image image) {
         super(image);
         addMouseListener(new MouseAdapter() {
-
+            @Override
             public void mousePressed(MouseEvent e) {
                 showJPopupMenu(e);
             }
-
+            @Override
             public void mouseReleased(MouseEvent e) {
                 showJPopupMenu(e);
             }
@@ -94,7 +96,7 @@ public class JXTrayIcon extends TrayIcon {
         menu.addPopupMenuListener(popupListener);
     }
 
-    private static void createGui() {
+    public static void createGui() {
         JXTrayIcon tray = new JXTrayIcon(createImage());
         tray.setJPopuMenu(createJPopupMenu());
         try {
@@ -102,18 +104,6 @@ public class JXTrayIcon extends TrayIcon {
         } catch (AWTException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel");
-
-        SwingUtilities.invokeLater(new Runnable() {
-
-            public void run() {
-                createGui();
-            }
-        });
     }
 
     static Image createImage() {
@@ -142,7 +132,7 @@ public class JXTrayIcon extends TrayIcon {
         m.add(submenu);
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(new ActionListener() {
-
+            @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
