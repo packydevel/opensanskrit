@@ -15,8 +15,6 @@ public class ClosableTab extends JFrame {
 
 	public ClosableTab() {
 		label.setName("pippo");
-		System.out.println(ClosableTab.class
-				.getResource("/org/opensanskrit/resource/CloseIcon.png"));
 		close.setIcon(new ImageIcon(ClosableTab.class
 				.getResource("/org/opensanskrit/resource/CloseIcon.png")));
 		close.setPreferredSize(new Dimension(17, 17));

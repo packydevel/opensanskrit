@@ -11,82 +11,148 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JWindow;
 
-/**
- * SplashScreen
- * 
- * @author luca
- */
+import org.jfacility.java.lang.JVM;
+
 public class SplashScreen {
+	private static final JVM jvm = new JVM();
+	private static SplashableWindow splashWindow = null;
 
-	protected static SplashScreen splashscreen = null;
-	protected Graphics2D graphics2D;
-	protected int steps;
-	protected int stepCounter = 0;
-	protected int width;
-	protected int height;
-	private JWindow splashJW;
-	private final Image splashImage;
-
-	protected SplashScreen(int steps, Image splashImage) {
-		this.steps = steps;
-		this.splashImage = splashImage;
-		this.width = splashImage.getWidth(null);
-		this.height = splashImage.getHeight(null);
-	}
-
-	public static SplashScreen getInstance(int steps, Image splashImage) {
-		if (splashscreen == null) {
-			splashscreen = new SplashScreen(steps, splashImage);
+	public static SplashableWindow getInstance(int steps, Image splashImage) {
+		if (splashWindow == null) {
+			if (jvm.isOrLater(16))
+				splashWindow = Java6SplashScreen
+						.getInstance(steps, splashImage);
+			else
+				splashWindow = Java5SplashScreen
+						.getInstance(steps, splashImage);
 		}
-		return splashscreen;
+		return splashWindow;
 	}
 
-	public void start() {
-		Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (screenDimension.width - width) / 2;
-		int y = (screenDimension.height - height) / 2;
+	/**
+	 * SplashScreen
+	 * 
+	 * @author luca
+	 */
+	private static class Java5SplashScreen implements SplashableWindow {
 
-		splashJW = new JWindow() {
-			/*
-			 * Non è chiaro il motivo, ma sembrerebbe che occorra
-			 * necessariamente disegnare la splashImage nel metodo paint. Non è
-			 * chiaro perchè occorra invocare super.paint(g). Non è chiaro
-			 * perchè disegnare qualcosa che attenga ad una image debba essere
-			 * fatto anch'esso nel metodo paint. Approfondire le API
-			 * Graphics2D!!!
-			 */
+		protected static SplashableWindow splashscreen = null;
+		protected Graphics2D graphics2D;
+		protected int steps;
+		protected int stepCounter = 0;
+		protected int width;
+		protected int height;
+		private JWindow splashJW;
+		private final Image splashImage;
 
-			@Override
-			public void paint(Graphics g) {
-				super.paint(g);
-				graphics2D.drawImage(splashImage, 0, 0, null);
-				graphics2D.setColor(Color.BLACK);
-				graphics2D.draw(new Rectangle2D.Double(0, 0, 299, 299));
+		protected Java5SplashScreen(int steps, Image splashImage) {
+			this.steps = steps;
+			this.splashImage = splashImage;
+			this.width = splashImage.getWidth(null);
+			this.height = splashImage.getHeight(null);
+		}
+
+		public static SplashableWindow getInstance(int steps, Image splashImage) {
+			if (splashscreen == null) {
+				splashscreen = new Java5SplashScreen(steps, splashImage);
 			}
-		};
-		splashJW.setBounds(x, y, width, height);
-		splashJW.setVisible(true);
+			return splashscreen;
+		}
 
-		/*
-		 * E' fondamentale che la JWindow sia visibile per ottenere l'oggetto
-		 * graphics2D. In caso contrario verrà restituito null.
-		 */
-		graphics2D = (Graphics2D) splashJW.getGraphics();
+		public void start() {
+			Dimension screenDimension = Toolkit.getDefaultToolkit()
+					.getScreenSize();
+			int x = (screenDimension.width - width) / 2;
+			int y = (screenDimension.height - height) / 2;
+
+			splashJW = new JWindow() {
+				/*
+				 * Non è chiaro il motivo, ma sembrerebbe che occorra
+				 * necessariamente disegnare la splashImage nel metodo paint.
+				 * Non è chiaro perchè occorra invocare super.paint(g). Non è
+				 * chiaro perchè disegnare qualcosa che attenga ad una image
+				 * debba essere fatto anch'esso nel metodo paint. Approfondire
+				 * le API Graphics2D!!!
+				 */
+
+				@Override
+				public void paint(Graphics g) {
+					super.paint(g);
+					graphics2D.drawImage(splashImage, 0, 0, null);
+					graphics2D.setColor(Color.BLACK);
+					graphics2D.draw(new Rectangle2D.Double(0, 0, 299, 299));
+				}
+			};
+			splashJW.setBounds(x, y, width, height);
+			splashJW.setVisible(true);
+
+			/*
+			 * E' fondamentale che la JWindow sia visibile per ottenere
+			 * l'oggetto graphics2D. In caso contrario verrà restituito null.
+			 */
+			graphics2D = (Graphics2D) splashJW.getGraphics();
+		}
+
+		public void updateStartupState(String message) {
+			stepCounter++;
+
+			graphics2D.setBackground(new Color(255, 255, 255, 0));
+			graphics2D.clearRect(0, 301, 299, 20);
+			graphics2D.setColor(new Color(157, 53, 7, 255));
+			graphics2D.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 10));
+			graphics2D.drawString(message, 10, 315);
+			graphics2D.setColor(new Color(243, 101, 35, 100));
+			graphics2D.fillRect(1, 301, (299 / steps) * stepCounter, 18);
+		}
+
+		public void close() {
+			splashJW.dispose();
+		}
 	}
 
-	public void updateStartupState(String message) {
-		stepCounter++;
+	private static class Java6SplashScreen extends Java5SplashScreen {
 
-		graphics2D.setBackground(new Color(255, 255, 255, 0));
-		graphics2D.clearRect(0, 301, 299, 20);
-		graphics2D.setColor(new Color(157, 53, 7, 255));
-		graphics2D.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 10));
-		graphics2D.drawString(message, 10, 315);
-		graphics2D.setColor(new Color(243, 101, 35, 100));
-		graphics2D.fillRect(1, 301, (299 / steps) * stepCounter, 18);
-	}
+		private java.awt.SplashScreen splash;
 
-	public void close() {
-		splashJW.dispose();
+		private Java6SplashScreen(int steps, Image splashImage) {
+			super(steps, splashImage);
+		}
+
+		public static SplashableWindow getInstance(int steps, Image splashImage) {
+			if (splashscreen == null) {
+				splashscreen = new Java6SplashScreen(steps, splashImage);
+			}
+			return splashscreen;
+		}
+
+		@Override
+		public void start() {
+			this.splash = java.awt.SplashScreen.getSplashScreen();
+			if (splash == null) {
+				// System.out.println("SplashScreen.getSplashScreen() returned null");
+				return;
+			}
+
+			graphics2D = splash.createGraphics();
+			if (graphics2D == null) {
+				// System.out.println("g is null");
+				return;
+			}
+
+			graphics2D.setColor(Color.BLACK);
+			graphics2D.draw(new Rectangle2D.Double(0, 0, 299, 299));
+
+			splash.update();
+		}
+
+		@Override
+		public void updateStartupState(String message) {
+			super.updateStartupState(message);
+			splash.update();
+		}
+
+		@Override
+		public void close() {
+		}
 	}
 }
