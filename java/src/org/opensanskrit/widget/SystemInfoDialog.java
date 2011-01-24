@@ -67,6 +67,7 @@ public class SystemInfoDialog extends JDialog{
         dtm.addRow(new String[]{"Sistema Operativo", SystemProperty.getOsName()});
         dtm.addRow(new String[]{"Versione SO", SystemProperty.getOsVersion()});
         dtm.addRow(new String[]{"Architettura SO", SystemProperty.getOsArchitecture()});
+        dtm.addRow(new String[]{"Desktop in uso", SystemProperty.getSunDesktop()});
         dtm.addRow(new String[]{"Directory attuale", SystemProperty.getUserDir()});
         if (rows!=null){
             for (int r=0; r<rows.size(); r++)
