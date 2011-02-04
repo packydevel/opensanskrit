@@ -15,12 +15,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import org.opensanskrit.widget.interfaces.ProgressListener;
 /**
  * 
  * @author luca
  */
 public class ProgressDialog extends JDialog {
-
     private JProgressBar bar;
     private JButton jbAbort;
     private static List progressListenerList = new ArrayList();
