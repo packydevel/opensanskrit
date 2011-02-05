@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 
 import org.opensanskrit.widget.interfaces.ProgressListener;
 /**
@@ -38,7 +40,8 @@ public class ProgressDialog extends JDialog {
 
         JPanel pane = new JPanel();
         jbAbort = new JButton(" Abort ");
-        jbAbort.setPreferredSize(new Dimension(100, 25));
+        jbAbort.setPreferredSize(new Dimension(60, 20));
+        jbAbort.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
         jbAbort.addMouseListener(new MouseAdapter()  {
             @Override
             public void mouseClicked(MouseEvent evt) {
