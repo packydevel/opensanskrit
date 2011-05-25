@@ -1,6 +1,7 @@
 package org.opensanskrit.widget;
 
 import org.opensanskrit.widget.interfaces.SplashableWindow;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,20 +13,13 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JWindow;
 
-import org.jfacility.java.lang.JVM;
-
 public class SplashScreen {
 
-    private static final JVM jvm = new JVM();
     private static SplashableWindow splashWindow = null;
 
     public static SplashableWindow getInstance(int steps, Image splashImage) {
-        if (splashWindow == null) {
-            if (jvm.isOrLater(16))
-                splashWindow = Java6SplashScreen.getInstance(steps, splashImage);
-            else
-                splashWindow = Java5SplashScreen.getInstance(steps, splashImage);
-        }
+        if (splashWindow == null)
+            splashWindow = Java6SplashScreen.getInstance(steps, splashImage);
         return splashWindow;
     }
 
@@ -35,7 +29,6 @@ public class SplashScreen {
      * @author luca
      */
     private static class Java5SplashScreen implements SplashableWindow {
-
         protected static SplashableWindow splashscreen = null;
         protected Graphics2D graphics2D;
         protected int steps;
@@ -130,7 +123,7 @@ public class SplashScreen {
         public void start() {
             this.splash = java.awt.SplashScreen.getSplashScreen();
             if (splash == null) {
-                // System.out.println("SplashScreen.getSplashScreen() returned null");
+                System.out.println("SplashScreen.getSplashScreen() returned null");
                 return;
             }
 
@@ -153,7 +146,6 @@ public class SplashScreen {
         }
 
         @Override
-        public void close() {
-        }
+        public void close() {}
     }
 }
