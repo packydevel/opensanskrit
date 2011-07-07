@@ -3,6 +3,7 @@ package org.opensanskrit.application;
 import java.util.TreeMap;
 
 import javax.swing.UIManager;
+import org.jfacility.java.lang.OS;
 
 import org.opensanskrit.exception.NotAvailableLookAndFeelException;
 /**
@@ -21,11 +22,11 @@ public class LookAndFeel {
     private final String JTATTOO_AERO = "JTattoo Aero";
     private final String JTATTOO_ALUMINIUM = "JTattoo Aluminium";
     private final String JTATTOO_BERNSTEIN = "JTattoo Bernstein";
-    private final String JTATTOO_FAST = "JTatoo Fast";
+    private final String JTATTOO_FAST = "JTattoo Fast";
     private final String JTATTOO_GRAPHITE = "JTattoo Graphite";
     private final String JTATTOO_HIFI = "JTattoo HiFi";
     private final String JTATTOO_LUNA = "JTattoo Luna";
-    private final String JTATTOO_MCWIN = "JTattoo_McWin";
+    private final String JTATTOO_MCWIN = "JTattoo McWin";
     private final String JTATTOO_MINT = "JTattoo Mint";
     private final String JTATTOO_NOIRE = "JTattoo Noire";
     private final String JTATTOO_SMART = "JTattoo Smart";
@@ -50,13 +51,16 @@ public class LookAndFeel {
     
     public void addJavaLAF() {
     	LAFClassMap.put(JAVA_METAL, "javax.swing.plaf.metal.MetalLookAndFeel");
-    	LAFClassMap.put(JAVA_MOTIF, "com.sun.java.swing.plaf.motif.MotifLookAndFeel");
         LAFClassMap.put(JAVA_SYSTEM, UIManager.getSystemLookAndFeelClassName());
-        LAFClassMap.put(JAVA_CROSS_PLATFORM, UIManager.getCrossPlatformLookAndFeelClassName());
         LAFClassMap.put(JAVA_NIMBUS, "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        LAFClassMap.put(JAVA_WINDOWS, "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        LAFClassMap.put(JAVA_MAC, "com.sun.java.swing.plaf.mac.MacLookAndFeel");
-    }    
+        LAFClassMap.put(JAVA_CROSS_PLATFORM, UIManager.getCrossPlatformLookAndFeelClassName());
+        if (OS.isWindows())
+            LAFClassMap.put(JAVA_WINDOWS, "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        if (OS.isMac())
+            LAFClassMap.put(JAVA_MAC, "com.sun.java.swing.plaf.mac.MacLookAndFeel");
+        if (OS.isLinux())
+            LAFClassMap.put(JAVA_MOTIF, "com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+    }
     
     public void addJTattooLAF() {
     	LAFClassMap.put(JTATTOO_ACRYL, "com.jtattoo.plaf.acryl.AcrylLookAndFeel");
@@ -64,14 +68,14 @@ public class LookAndFeel {
     	LAFClassMap.put(JTATTOO_ALUMINIUM, "com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
     	LAFClassMap.put(JTATTOO_BERNSTEIN, "com.jtattoo.plaf.bernstein.BernsteinLookAndFeel");
     	LAFClassMap.put(JTATTOO_FAST, "com.jtattoo.plaf.fast.FastLookAndFeel");
-    	LAFClassMap.put(JTATTOO_GRAPHITE, "com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
+    	//LAFClassMap.put(JTATTOO_GRAPHITE, "com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
     	LAFClassMap.put(JTATTOO_HIFI, "com.jtattoo.plaf.hifi.HiFiLookAndFeel");
     	LAFClassMap.put(JTATTOO_LUNA, "com.jtattoo.plaf.luna.LunaLookAndFeel");
     	LAFClassMap.put(JTATTOO_MCWIN, "com.jtattoo.plaf.mcwin.McWinLookAndFeel");
     	LAFClassMap.put(JTATTOO_MINT, "com.jtattoo.plaf.mint.MintLookAndFeel");
     	LAFClassMap.put(JTATTOO_NOIRE, "com.jtattoo.plaf.noire.NoireLookAndFeel");
     	LAFClassMap.put(JTATTOO_SMART, "com.jtattoo.plaf.smart.SmartLookAndFeel");
-    	LAFClassMap.put(JTATTOO_CUSTOM, "de.pnwvi.plaf.PNWLookAndFeel");
+    	//LAFClassMap.put(JTATTOO_CUSTOM, "de.pnwvi.plaf.PNWLookAndFeel");
     }
 
     public void addSyntheticaStandardLAF(){
@@ -111,8 +115,8 @@ public class LookAndFeel {
     }
     public void setLookAndFeel() {
         try{
-            UIManager.setLookAndFeel(LAFClassMap.get(JAVA_CROSS_PLATFORM));
-            actualLAF = JAVA_CROSS_PLATFORM;
+            UIManager.setLookAndFeel(LAFClassMap.get(JAVA_SYSTEM));
+            actualLAF = JAVA_SYSTEM;
         } catch (Exception e) {}
     }
 }
