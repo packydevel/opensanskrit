@@ -1,6 +1,8 @@
 package org.opensanskrit.application;
 
+import java.awt.Frame;
 import java.util.TreeMap;
+import javax.swing.SwingUtilities;
 
 import javax.swing.UIManager;
 import org.jfacility.java.lang.OS;
@@ -79,7 +81,7 @@ public class LookAndFeel {
     }
 
     public void addSyntheticaStandardLAF(){
-        LAFClassMap.put(SYNTHETICA_STANDARD, "de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel");
+            LAFClassMap.put(SYNTHETICA_STANDARD, "de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel");
     }
     
     public void addSyntheticaFreeLAF(){
@@ -113,6 +115,19 @@ public class LookAndFeel {
             throw new NotAvailableLookAndFeelException();
         }
     }
+    
+    public void setLookAndFeelRuntime(String key, Frame frame) 
+                                        throws NotAvailableLookAndFeelException{
+        try{
+            UIManager.setLookAndFeel(LAFClassMap.get(key));
+            SwingUtilities.updateComponentTreeUI(frame);
+            frame.pack();
+            actualLAF = key;
+        } catch (Exception e) {
+            throw new NotAvailableLookAndFeelException();
+        }
+    }
+    
     public void setLookAndFeel() {
         try{
             UIManager.setLookAndFeel(LAFClassMap.get(JAVA_SYSTEM));

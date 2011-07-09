@@ -19,9 +19,9 @@ import org.jfacility.java.lang.SystemProperty;
 
 public class Application {
 
-    public static Application APPLICATION;    
-    public static String BUILD_NUMBER, ROOT_DIRECTORY, HOME_DIRECTORY;
-    public static boolean IS_JAR;
+    private static Application APPLICATION;    
+    private static String BUILD_NUMBER, ROOT_DIRECTORY, HOME_DIRECTORY;
+    private static boolean IS_JAR;
 
     private static Class<?> CLASS;
     private static boolean DEBUG_FLAG;
