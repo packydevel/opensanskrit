@@ -210,7 +210,7 @@ public class Application {
         this.singleInstance = flag;
     }
 
-    public LookAndFeel getIstanceLAF(){
+    public LookAndFeel getLookAndFeelInstance(){
         return applicationLookAndFeel;
     }
 }
