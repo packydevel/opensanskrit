@@ -13,13 +13,19 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JWindow;
 
+import org.jfacility.java.lang.JVM;
+
 public class SplashScreen {
 
     private static SplashableWindow splashWindow = null;
 
     public static SplashableWindow getInstance(int steps, Image splashImage) {
-        if (splashWindow == null)
-            splashWindow = Java6SplashScreen.getInstance(steps, splashImage);
+        if (splashWindow == null){
+            if (JVM.isRuntimeJavaSun())
+                splashWindow = JavaSunSplashScreen.getInstance(steps, splashImage);
+            else if (JVM.isRuntimeOpenJDK())
+                splashWindow = OpenJdkSplashScreen.getInstance(steps, splashImage);
+        }
         return splashWindow;
     }
 
@@ -28,17 +34,14 @@ public class SplashScreen {
      * 
      * @author luca
      */
-    private static class Java5SplashScreen implements SplashableWindow {
-        protected static SplashableWindow splashscreen = null;
-        protected Graphics2D graphics2D;
-        protected int steps;
-        protected int stepCounter = 0;
-        protected int width;
-        protected int height;
+    private static class OpenJdkSplashScreen implements SplashableWindow {
+        private static SplashableWindow splashscreen = null;
+        private Graphics2D graphics2D;
+        private int steps, width, height, stepCounter = 0;
         private JWindow splashJW;
         private final Image splashImage;
 
-        protected Java5SplashScreen(int steps, Image splashImage) {
+        private  OpenJdkSplashScreen(int steps, Image splashImage) {
             this.steps = steps;
             this.splashImage = splashImage;
             this.width = splashImage.getWidth(null);
@@ -46,9 +49,8 @@ public class SplashScreen {
         }
 
         public static SplashableWindow getInstance(int steps, Image splashImage) {
-            if (splashscreen == null) {
-                splashscreen = new Java5SplashScreen(steps, splashImage);
-            }
+            if (splashscreen == null)
+                splashscreen = new OpenJdkSplashScreen(steps, splashImage);
             return splashscreen;
         }
 
@@ -105,17 +107,24 @@ public class SplashScreen {
         }
     }
 
-    private static class Java6SplashScreen extends Java5SplashScreen {
-
+    private static class JavaSunSplashScreen implements SplashableWindow {
         private java.awt.SplashScreen splash;
+        private static SplashableWindow splashscreen = null;
+        private Graphics2D graphics2D;
+        private int steps, stepCounter = 0;
+        //private int width, height;
+        //private final Image splashImage;
 
-        private Java6SplashScreen(int steps, Image splashImage) {
-            super(steps, splashImage);
+        private JavaSunSplashScreen(int steps, Image image) {
+            this.steps = steps;
+            //splashImage = image;
+            //width = splashImage.getWidth(null);
+            //height = splashImage.getHeight(null);
         }
 
         public static SplashableWindow getInstance(int steps, Image splashImage) {
             if (splashscreen == null)
-                splashscreen = new Java6SplashScreen(steps, splashImage);
+                splashscreen = new JavaSunSplashScreen(steps, splashImage);
             return splashscreen;
         }
 
@@ -141,7 +150,16 @@ public class SplashScreen {
 
         @Override
         public void updateStartupState(String message) {
-            super.updateStartupState(message);
+            stepCounter++;
+
+            graphics2D.setBackground(new Color(255, 255, 255, 0));
+            graphics2D.clearRect(0, 301, 299, 20);
+            graphics2D.setColor(new Color(157, 53, 7, 255));
+            graphics2D.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 10));
+            graphics2D.drawString(message, 10, 315);
+            graphics2D.setColor(new Color(243, 101, 35, 100));
+            graphics2D.fillRect(1, 301, (299 / steps) * stepCounter, 18);
+            
             splash.update();
         }
 
