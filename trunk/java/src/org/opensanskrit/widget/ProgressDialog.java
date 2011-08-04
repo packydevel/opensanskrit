@@ -32,7 +32,7 @@ public class ProgressDialog extends JDialog {
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         setResizable(false);
         setUndecorated(true);
-        setPreferredSize(new Dimension(300, 80));
+        setPreferredSize(new Dimension(300, 100));
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         bar = new JProgressBar(0, max);
         bar.setValue(0);
