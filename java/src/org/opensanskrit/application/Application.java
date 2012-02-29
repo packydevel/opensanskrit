@@ -20,15 +20,11 @@ import org.jfacility.java.lang.SystemProperty;
 public class Application {
 
     private static Application APPLICATION;    
-    private static String BUILD_NUMBER, ROOT_DIRECTORY, HOME_DIRECTORY;
-    private static boolean IS_JAR;
-
+    private static String ROOT_DIRECTORY, HOME_DIRECTORY;
+    private static boolean IS_JAR, DEBUG_FLAG;
     private static Class<?> CLASS;
-    private static boolean DEBUG_FLAG;
 
-    public String JAR_FILENAME;
-
-    private String name, author;
+    private String JAR_FILENAME, name, author;
     private Image ICON;    
     private Boolean singleInstance = false;
     private LookAndFeel applicationLookAndFeel;
@@ -41,8 +37,7 @@ public class Application {
             if (DEBUG_FLAG)
                 System.out.println(caller.getCanonicalName());
             CLASS = caller;
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         IS_JAR = isJar();
         if (DEBUG_FLAG)
             System.out.println("JAR:" + IS_JAR);

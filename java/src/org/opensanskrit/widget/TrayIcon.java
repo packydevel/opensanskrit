@@ -27,8 +27,10 @@ public class TrayIcon extends java.awt.TrayIcon {
         addMouseListener(new MouseAdapter()  {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SystemTray.getSystemTray().remove(TrayIcon.this);
-                TrayIcon.this.owner.setVisible(true);
+                if (e.getButton()==MouseEvent.BUTTON1){
+                    SystemTray.getSystemTray().remove(TrayIcon.this);
+                    TrayIcon.this.owner.setVisible(true);
+                } 
             }
             @Override
             public void mousePressed(MouseEvent e) {

@@ -25,7 +25,7 @@ import org.opensanskrit.widget.interfaces.ProgressListener;
 public class ProgressDialog extends JDialog {
     private JProgressBar bar;
     private JButton jbAbort;
-    private static List progressListenerList = new ArrayList();
+    private static List<ProgressListener> progressListenerList = new ArrayList<ProgressListener>();
 
     public ProgressDialog(Frame owner, String title, int max) {
         super(owner, title, ModalityType.DOCUMENT_MODAL);
@@ -84,9 +84,9 @@ public class ProgressDialog extends JDialog {
 
     private synchronized void fireKillProgress() {
         ProgressEvent event = new ProgressEvent(this);
-        Iterator listeners = progressListenerList.iterator();
+        Iterator<ProgressListener> listeners = progressListenerList.iterator();
         while (listeners.hasNext()) {
-            ProgressListener myel = (ProgressListener) listeners.next();
+            ProgressListener myel = listeners.next();
             myel.objReceived(event);
         }
     }
